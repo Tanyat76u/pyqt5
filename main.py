@@ -1,18 +1,15 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow
-
 import sys
+
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow
 
 
 class Window(QMainWindow):  # класс родит.
-
     def __init__(self):  # конструктор
         super(Window, self).__init__()
 
         self.setWindowTitle("Расчет треугольника")  # наследуем из QMainWindow
         self.setGeometry(600, 450, 450, 600)
-
-        self.new_text = QtWidgets.QLabel(self)
 
         self.main_text = QtWidgets.QLabel(self)
         self.main_text.setText("Введите три стороны треугольника")
@@ -37,10 +34,14 @@ class Window(QMainWindow):  # класс родит.
         self.btn1.setFixedWidth(200)
         self.btn1.clicked.connect(self.collect_sides)
 
-    def add_label(self):
-        self.new_text.setText("Вторая надпись")  # появляется при нажатии на кнопку
-        self.new_text.move(100, 50)
-        self.new_text.adjustSize()
+        self.main_text = QtWidgets.QLabel(self)
+        self.main_text.setText("Результат расчета")
+        self.main_text.move(100, 220)  # двигаем сам обьект в пределах окна
+        self.main_text.adjustSize()
+
+        self.label = QtWidgets.QLineEdit(self)
+        self.label.setGeometry(QtCore.QRect(100, 240, 200, 26))
+        self.label.setObjectName("textEdit")
 
     @QtCore.pyqtSlot()
     def collect_sides(self):
@@ -48,18 +49,13 @@ class Window(QMainWindow):  # класс родит.
         b = int(self.lineEdit2.text())
         c = int(self.lineEdit3.text())
         self.proverka(a, b, c)
-        self.cleaner()
 
     def proverka(self, a, b, c):
         if (a + b > c) and (b + c > a) and (a + c > b):
-            print("Треугольник существует")
+            self.label.setText("Треугольник существует")
         else:
-            print("Треугольник не существует")
+            self.label.setText("Треугольник не существует")
 
-    def cleaner(self):
-        self.lineEdit1.clear()
-        self.lineEdit2.clear()
-        self.lineEdit3.clear()
 
 def application():
     app = QApplication(sys.argv)  # передаем настройки компьютера из пакета sys
