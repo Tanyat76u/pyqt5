@@ -34,14 +34,10 @@ class Window(QMainWindow):
         self.btn1.setFixedWidth(200)
         self.btn1.clicked.connect(self.collect_sides)
 
-        self.main_text = QtWidgets.QLabel(self)
-        self.main_text.setText("Результат расчета")
-        self.main_text.move(100, 220)
-        self.main_text.adjustSize()
-
-        self.label = QtWidgets.QLineEdit(self)
-        self.label.setGeometry(QtCore.QRect(100, 240, 200, 26))
-        self.label.setObjectName("textEdit")
+        self.result_text = QtWidgets.QLabel(self)
+        self.result_text.setText("Результат расчета")
+        self.result_text.move(100, 220)
+        self.result_text.adjustSize()
 
         self.label = QtWidgets.QLineEdit(self)
         self.label.setGeometry(QtCore.QRect(100, 240, 200, 26))
