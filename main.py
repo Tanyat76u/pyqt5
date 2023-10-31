@@ -4,16 +4,16 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 
-class Window(QMainWindow):  # класс родит.
-    def __init__(self):  # конструктор
+class Window(QMainWindow):
+    def __init__(self):
         super(Window, self).__init__()
 
-        self.setWindowTitle("Расчет треугольника")  # наследуем из QMainWindow
+        self.setWindowTitle("Расчет треугольника")
         self.setGeometry(600, 450, 450, 600)
 
         self.main_text = QtWidgets.QLabel(self)
         self.main_text.setText("Введите три стороны треугольника")
-        self.main_text.move(100, 50)  # двигаем сам обьект в пределах окна
+        self.main_text.move(100, 50)
         self.main_text.adjustSize()
 
         self.lineEdit1 = QtWidgets.QLineEdit(self)
@@ -36,8 +36,12 @@ class Window(QMainWindow):  # класс родит.
 
         self.main_text = QtWidgets.QLabel(self)
         self.main_text.setText("Результат расчета")
-        self.main_text.move(100, 220)  # двигаем сам обьект в пределах окна
+        self.main_text.move(100, 220)
         self.main_text.adjustSize()
+
+        self.label = QtWidgets.QLineEdit(self)
+        self.label.setGeometry(QtCore.QRect(100, 240, 200, 26))
+        self.label.setObjectName("textEdit")
 
         self.label = QtWidgets.QLineEdit(self)
         self.label.setGeometry(QtCore.QRect(100, 240, 200, 26))
@@ -45,20 +49,27 @@ class Window(QMainWindow):  # класс родит.
 
     @QtCore.pyqtSlot()
     def collect_sides(self):
-        a = int(self.lineEdit1.text())
-        b = int(self.lineEdit2.text())
-        c = int(self.lineEdit3.text())
-        self.proverka(a, b, c)
+        try:
+            a = float(self.lineEdit1.text())
+            b = float(self.lineEdit2.text())
+            c = float(self.lineEdit3.text())
+            self.proverka(a, b, c)
+        except ValueError:
+            self.label.setText("Введите корректные значения")
+        except TypeError:
+            self.label.setText("Введите корректные значения")
+        except OverflowError:
+            self.label.setText("Введите корректные значения")
 
     def proverka(self, a, b, c):
-        if (a + b > c) and (b + c > a) and (a + c > b):
+        if a > 0 and b > 0 and c > 0 and (a + b > c) and (b + c > a) and (a + c > b):
             self.label.setText("Треугольник существует")
         else:
             self.label.setText("Треугольник не существует")
 
 
 def application():
-    app = QApplication(sys.argv)  # передаем настройки компьютера из пакета sys
+    app = QApplication(sys.argv)
     window = Window()
 
     window.show()
